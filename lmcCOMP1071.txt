@@ -12,6 +12,9 @@ di2 STO n
     LDA tem #Store divided number in n and tem
     STO n
     STO tem
+
+    OUT     @@@REMOVE
+
     SUB 333 #Check for overflow, if true then halt
     BRP ove
 
@@ -37,7 +40,8 @@ loo LDA tem
     LDA n
     BR  di2
 
-ove OUT 0 #Overflow halt
+ove LDA 0   #Overflow halt
+    OUT
 0   DAT 0
 
 n   DAT 0
