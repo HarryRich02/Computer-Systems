@@ -1,7 +1,6 @@
 inp IN
 
-nex LDA tem
-    OUT
+nex OUT
     STO n
     SUB 1
     BRZ 0
@@ -9,18 +8,22 @@ nex LDA tem
     STO tem
     LDA n
 
-div LDA n
-    SUB 2
-    BRZ nex
-    STO n
+div STO n
     LDA tem
     ADD 1
     STO tem
+    LDA n
+    SUB 2
+    BRZ loo
     BRP div
 
-odd STO n
+odd LDA tem
+    STO n
+    STO tem
+
     SUB 333
     BRP ove
+
 mul LDA tem
     ADD 2
     STO tem
@@ -31,6 +34,9 @@ mul LDA tem
     LDA tem
     SUB 3
     STO tem
+
+loo LDA tem
+    BR  nex
 
 ove LDA 0
     OUT
