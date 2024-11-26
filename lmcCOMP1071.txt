@@ -1,5 +1,10 @@
 inp IN      #Take input from user
+    STO n
     OUT
+out LDA 0
+    STO tem
+    LDA n
+
 di2 STO n
     LDA tem #Load tem and increment by 1
     ADD 1
@@ -12,8 +17,6 @@ di2 STO n
     LDA tem #Store divided number in n and tem
     STO n
     STO tem
-
-    OUT     @@@REMOVE
 
     SUB 333 #Check for overflow, if true then halt
     BRP ove
@@ -31,14 +34,10 @@ mu3 LDA tem #Load tem and increment by 2
 
 loo LDA tem
     STO n #Store new number in n
-    OUT #Output value
+    OUT
     SUB 1 #If 1, end without output
     BRZ 0
-    LDA n
-    LDA 0 #Reset tem to 0 and load n
-    STO tem
-    LDA n
-    BR  di2
+    BR  out
 
 ove LDA 0   #Overflow halt
     OUT
