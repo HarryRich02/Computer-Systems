@@ -1,0 +1,48 @@
+inp IN      #Take input from user
+    OUT
+di2 STO n
+    LDA tem #Load tem and increment by 1
+    ADD 1
+    STO tem
+    LDA n   #Load n and decrement by 2
+    SUB 2
+    BRZ loo #If zero (ie. if division finished and even), skip mu3 loop
+    BRP di2 #If not finished, loop
+
+    LDA tem #Store divided number in n and tem
+    STO n
+    STO tem
+    SUB 333 #Check for overflow, if true then halt
+    BRP ove
+
+mu3 LDA tem #Load tem and increment by 2
+    ADD 2
+    STO tem
+    LDA n #Load n and decrement by 1
+    SUB 1
+    STO n
+    BRP mu3 #If positive repeat
+    LDA tem #Load number multiplied by 3 and sub 3
+    SUB 3
+    STO tem
+
+loo LDA tem
+    STO n #Store new number in n
+    OUT #Output value
+    SUB 1 #If 1, end without output
+    BRZ 0
+    LDA n
+    LDA 0 #Reset tem to 0 and load n
+    STO tem
+    LDA n
+    BR  di2
+
+ove OUT 0 #Overflow halt
+0   DAT 0
+
+n   DAT 0
+tem DAT 0
+1   DAT 1
+2   DAT 2
+3   DAT 3
+333 DAT 333
