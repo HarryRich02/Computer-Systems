@@ -6,14 +6,13 @@ nex OUT
     BRZ 0
     LDA 0
     STO tem
-    LDA n
 
-div STO n
-    LDA tem
+div LDA tem
     ADD 1
     STO tem
     LDA n
     SUB 2
+    STO n
     BRZ loo
     BRP div
 
