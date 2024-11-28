@@ -19,7 +19,6 @@ div STO n
 
 odd LDA tem
     STO n
-    STO tem
 
     SUB 333
     BRP ove
