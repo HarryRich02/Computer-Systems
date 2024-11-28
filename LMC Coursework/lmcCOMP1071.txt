@@ -1,45 +1,53 @@
-inp IN
+#===INPUT===
+inp IN      #Take user input
 
-nex OUT
-    STO n
-    SUB 1
+#===MAIN-LOOP===
+nex STO n   #Store value in n and output
+    OUT
+    SUB 1   #Check if n is 1, if so halt without output
     BRZ 0
-    LDA 0
+    LDA 0   #Set tem to 0
     STO tem
 
-div LDA tem
+#===DIVIDE-BY-2===
+div LDA tem #Increment tem by 1 (calculating n/2)
     ADD 1
     STO tem
-    LDA n
+    LDA n   #Decrement n by 2 (counting down to end loop)
     SUB 2
     STO n
-    BRZ loo
-    BRP div
+    BRZ loo #If n is 0, the number is even and the loop has ended, so repeat function
+    BRP div #Repeat until fully divided
 
-odd LDA tem
+#===IF-ODD===
+odd LDA tem #Set n equal to tem
     STO n
 
-    SUB 333
+    SUB 333 #Check if the value will be greater than 999 after multiplying, if so halt after outputting 0
     BRP ove
 
-mul LDA tem
+#===MULTIPLY-BY-3===
+mul LDA tem #Increment tem by 2 (calculating 3n)
     ADD 2
     STO tem
-    LDA n
+    LDA n   #Decrement n by 1 (counting down to end loop)
     SUB 1
     STO n
-    BRP mul
-    LDA tem
+    BRP mul #Repeat until fully multiplied
+    LDA tem #If finished, subtract 3 (adjusting for algorithm and doing +1 section of formula)
     SUB 3
     STO tem
 
-loo LDA tem
+#===LOOP===
+loo LDA tem #Load tem and repeat
     BR  nex
 
-ove LDA 0
+#===HALT===
+ove LDA 0 #Output 0
     OUT
-0   DAT 0
+0   DAT 0 #Halt program
 
+#===VARIABLES===
 n   DAT 0
 tem DAT 0
 1   DAT 1
