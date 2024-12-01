@@ -20,20 +20,16 @@ div LDA tem #Increment tem by 1 (calculating n/2)
     BRP div #Repeat until fully divided
 
 #===IF-ODD===
-odd LDA tem
-    
+odd LDA tem #Check if value will overflow when multiplied by 3, and if so halt outputting 0
     SUB 334
     BRP ove
     
-    LDA tem
-    ADD tem
+    LDA tem #Multiply tem by 3 and subtract 1
     ADD tem
     SUB 1
-    STO tem
 
-#===LOOP===
-loo LDA tem #Load tem and repeat
-    BR  nex
+loo ADD tem #Load tem and return to start of loop
+    BR nex
 
 #===HALT===
 ove LDA 0 #Output 0
@@ -45,5 +41,4 @@ n   DAT 0
 tem DAT 0
 1   DAT 1
 2   DAT 2
-3   DAT 3
 334 DAT 334
