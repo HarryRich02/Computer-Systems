@@ -1,44 +1,67 @@
 #===INPUT===
-inp IN      #Take user input
 
-#===MAIN-LOOP===
-nex STO n   #Store value in n and output
-    OUT
-    SUB 1   #Check if n is 1, if so halt without output
-    BRZ 0
-    LDA 0   #Set tem to 0
-    STO tem
+# Take user input
+input	IN
+
+#===START===
+
+# Store the current calculator value in x1 and output
+start	STO	x1
+	OUT
+# Check if the current value is 1 by subtracting 1 from it. If it is, the program will halt with no further outputs
+	SUB	1
+	BRZ	0
+# Load 0 and store it in x2
+	LDA	0
+	STO	x2
 
 #===DIVIDE-BY-2===
-div LDA tem #Increment tem by 1 (calculating n/2)
-    ADD 1
-    STO tem
-    LDA n   #Decrement n by 2 (counting down to end loop)
-    SUB 2
-    STO n
-    BRZ loo #If n is 0, the number is even and the loop has ended, so repeat function
-    BRP div #Repeat until fully divided
+# x2 is incremented by 1 and x2 is decremented by 2 each loop. When x1 reaches 0, x2 will store n/2 if even, or (n/2)+1 if odd
+
+# Load x2 and increment it by 1, then store the value back in x2
+divide	LDA	x2
+	ADD	1
+	STO	x2
+# Load x1 and decrement it by 2, the store the value back in x1
+	LDA	x1
+	SUB	2
+	STO	x1
+# If x1 is 0, the original value was even and x2 now stores the original value divided by 2. As it was even, skip the IF-ODD section
+	BRZ	next
+# While not fully divided, repeat
+	BRP	divide
 
 #===IF-ODD===
-odd LDA tem #Check if value will overflow when multiplied by 3, and if so halt outputting 0
-    SUB 334
-    BRP ove
-    
-    LDA tem #Multiply tem by 3 and subtract 1
-    ADD tem
-    SUB 1
 
-loo ADD tem #Load tem and return to start of loop
-    BR nex
+# Load x2 ((n/2)+1) and check if it will overflow when multiplied by 3 by subtracting 334 from it. If the calculator is still positive, the value would overflow, so the program halts outputting 0
+odd	LDA	x2
+	SUB	334
+	BRP	overflo
+
+# Load x2 ((n/2)+1), and multiply it by 2 by adding it to itself
+	LDA	x2
+	ADD	x2
+# Subtract 1 from the value (this accounts for the overcounting by the division loop, and the +1 in the formula)
+	SUB	1
+
+#===REPEAT===
+
+# If n was even the calculator stores 0 and x2 is n/2, therefore adding x2 makes the calculator value n/2
+# If n was odd the calculator stores ((3n+1)/2) -(n/2)+1, so by adding x2 the calculator value will now be (3n+1)/2
+next	ADD	x2
+# Return to the start
+	BR	start
 
 #===HALT===
-ove LDA 0 #Output 0
-    OUT
-0   DAT 0 #Halt program
+# Load 0 and then output it as an overflow has occurred
+overflo	LDA	0
+	OUT
+# DAT 0 halts the program when ran, but can also be used to load 0 into the calculator
+0	DAT	0
 
 #===VARIABLES===
-n   DAT 0
-tem DAT 0
-1   DAT 1
-2   DAT 2
-334 DAT 334
+x1	DAT	0
+x2	DAT	0
+1	DAT	1
+2	DAT	2
+334	DAT	334
